@@ -11,7 +11,7 @@ import io.dropwizard.Configuration;
  *
  * @author Marcelo Oikawa
  */
-public class LocalConfiguration extends Configuration {
+public class CrookedConfiguration extends Configuration {
 
     @NotEmpty
     private String redisHost;

@@ -11,13 +11,15 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class DataResource {
 
-    public DataResource() {
+    private final String redisHost;
 
+    public DataResource(String redisHost) {
+        this.redisHost = redisHost;
     }
 
     @GET
     @Timed
     public String sayHello() {
-        return "hello-world";
+        return "hello-japa";
     }
 }
