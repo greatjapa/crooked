@@ -3,7 +3,10 @@ package crooked.algorithm;
 import java.util.Objects;
 
 /**
+ * The implementation of Levenshtein distance algorithm.
+ *
  * @author Marcelo Oikawa
+ * @see <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">https://en.wikipedia.org/wiki/Levenshtein_distance</a>
  */
 public class LevenshteinDistance implements IStringDistance {
 
