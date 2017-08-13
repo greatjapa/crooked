@@ -21,6 +21,9 @@ public class CrookedApplication extends Application<CrookedConfiguration> {
 
     @Override
     public void run(CrookedConfiguration configuration, Environment environment) throws Exception {
+        DefaultHealthCheck healthCheck = new DefaultHealthCheck();
+        environment.healthChecks().register("default", healthCheck);
+
         DataResource dataResource = new DataResource(configuration.getRedisHost());
         environment.jersey().register(dataResource);
     }
