@@ -1,0 +1,30 @@
+package crooked.api;
+
+import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+
+public class CrookedApplication extends Application<CrookedConfiguration> {
+    public static void main(String[] args) throws Exception {
+        new CrookedApplication().run(args);
+    }
+
+    @Override
+    public String getName() {
+        return "crooked-app";
+    }
+
+    @Override
+    public void initialize(Bootstrap<CrookedConfiguration> bootstrap) {
+        // nothing to do yet
+    }
+
+    @Override
+    public void run(CrookedConfiguration configuration, Environment environment) throws Exception {
+        DefaultHealthCheck healthCheck = new DefaultHealthCheck();
+        environment.healthChecks().register("default", healthCheck);
+
+        DataResource dataResource = new DataResource(configuration.getRedisHost(), configuration.getAlgorithmImpl());
+        environment.jersey().register(dataResource);
+    }
+}
