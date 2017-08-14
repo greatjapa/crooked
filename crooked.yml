@@ -1,1 +1,2 @@
 redisHost: localhost
+algorithm: levenshtein

@@ -24,7 +24,7 @@ public class CrookedApplication extends Application<CrookedConfiguration> {
         DefaultHealthCheck healthCheck = new DefaultHealthCheck();
         environment.healthChecks().register("default", healthCheck);
 
-        DataResource dataResource = new DataResource(configuration.getRedisHost());
+        DataResource dataResource = new DataResource(configuration.getRedisHost(), configuration.getAlgorithmImpl());
         environment.jersey().register(dataResource);
     }
 }

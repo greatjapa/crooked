@@ -17,29 +17,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import crooked.algorithm.IStringDistance;
-import crooked.algorithm.LevenshteinDistance;
 import redis.clients.jedis.Jedis;
 
 @Path("/crooked")
 @Produces(MediaType.APPLICATION_JSON)
 public class DataResource {
 
-    private final String redisHost;
     private final Jedis jedis;
     private final IStringDistance algorithm;
 
     private static final String WORDS_KEY = "CROOKED:WORDS";
 
-    public DataResource(String redisHost) {
-        this.redisHost = redisHost;
+    public DataResource(String redisHost, IStringDistance algorithm) {
         this.jedis = new Jedis(redisHost);
-        this.algorithm = new LevenshteinDistance();
-    }
-
-    @GET
-    @Timed
-    public String sayHello() {
-        return "crooked online";
+        this.algorithm = algorithm;
     }
 
     @POST
@@ -59,8 +50,9 @@ public class DataResource {
 
     @GET
     @Timed
-    @Path("similar")
-    public Set<String> similar(@QueryParam("word") String word, @QueryParam("threshold") Optional<Integer> threshold) {
+    @Path("find")
+    public Set<String> find(@QueryParam("word") String word,
+                            @QueryParam("threshold") Optional<Integer> threshold) {
         int limit = threshold.or(3);
         return jedis.smembers(WORDS_KEY).stream()
                 .filter(w -> algorithm.calc(word, w) < limit)
