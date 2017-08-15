@@ -1,3 +1,2 @@
-storage: memory
-redisHost: localhost
+storage: inMemory
 algorithm: levenshtein
