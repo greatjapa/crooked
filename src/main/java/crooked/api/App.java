@@ -4,9 +4,14 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-public class CrookedApplication extends Application<CrookedConfiguration> {
+/**
+ * The Application class.
+ *
+ * @author Marcelo Oikawa
+ */
+public class App extends Application<Conf> {
     public static void main(String[] args) throws Exception {
-        new CrookedApplication().run(args);
+        new App().run(args);
     }
 
     @Override
@@ -15,16 +20,16 @@ public class CrookedApplication extends Application<CrookedConfiguration> {
     }
 
     @Override
-    public void initialize(Bootstrap<CrookedConfiguration> bootstrap) {
+    public void initialize(Bootstrap<Conf> bootstrap) {
         // nothing to do yet
     }
 
     @Override
-    public void run(CrookedConfiguration configuration, Environment environment) throws Exception {
+    public void run(Conf conf, Environment environment) throws Exception {
         DefaultHealthCheck healthCheck = new DefaultHealthCheck();
         environment.healthChecks().register("default", healthCheck);
 
-        DataResource dataResource = new DataResource(configuration.getRedisHost(), configuration.getAlgorithmImpl());
+        DataResource dataResource = new DataResource(conf.getStorageImpl(), conf.getAlgorithmImpl());
         environment.jersey().register(dataResource);
     }
 }
