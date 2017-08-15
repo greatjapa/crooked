@@ -56,7 +56,7 @@ To see all words stored:
 curl http://localhost:8080/crooked/show
 ```
 
-To test find endpoint, try this:
+To test `find` endpoint, try this:
 ```sh
 curl http://localhost:8080/crooked/find?word=banan
 curl http://localhost:8080/crooked/find?word=banan\&threshold=5
