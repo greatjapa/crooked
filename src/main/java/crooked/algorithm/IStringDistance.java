@@ -1,7 +1,7 @@
 package crooked.algorithm;
 
 /**
- * Define calc method for {@link String} distance algorithms;
+ * Define API for {@link String} distance algorithms.
  *
  * @author Marcelo Oikawa
  */
