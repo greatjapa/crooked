@@ -1,9 +1,9 @@
 package crooked.api;
 
-import com.google.common.base.Optional;
-
 import com.codahale.metrics.annotation.Timed;
 
+import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +28,8 @@ public class DataResource {
 
 
     public DataResource(IStorage storage, IStringDistance algorithm) {
+        Objects.requireNonNull(storage, "storage should not be null.");
+        Objects.requireNonNull(algorithm, "algorithm should not be null.");
         this.storage = storage;
         this.algorithm = algorithm;
     }
@@ -36,6 +38,9 @@ public class DataResource {
     @Timed
     @Path("store/{word}")
     public Response store(@PathParam("word") String word) {
+        if (word == null || word.isEmpty()) {
+            return Response.status(Response.Status.PRECONDITION_FAILED).build();
+        }
         storage.store(word);
         return Response.status(Response.Status.OK).build();
     }
@@ -51,8 +56,12 @@ public class DataResource {
     @Timed
     @Path("find")
     public Set<String> find(@QueryParam("word") String word,
-                            @QueryParam("threshold") Optional<Integer> threshold) {
-        int limit = threshold.or(3);
+                            @QueryParam("threshold") Integer threshold) {
+        if (word == null) {
+            return Collections.emptySet();
+        }
+
+        int limit = threshold == null || threshold < 0 ? 3 : threshold;
         return storage.getWords().stream()
                 .filter(w -> algorithm.calc(word, w) < limit)
                 .collect(Collectors.toSet());

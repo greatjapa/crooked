@@ -32,6 +32,18 @@ public class LevenshteinDistanceTest {
     }
 
     @Test
+    public void testEmptyStringAsFirstParameter() {
+        IStringDistance algorithm = new LevenshteinDistance();
+        Assert.assertEquals(4, algorithm.calc("", "book"));
+    }
+
+    @Test
+    public void testEmptyStringAsSecondParameter() {
+        IStringDistance algorithm = new LevenshteinDistance();
+        Assert.assertEquals(4, algorithm.calc("book", ""));
+    }
+
+    @Test
     public void testInsertionAtEnd() {
         IStringDistance algorithm = new LevenshteinDistance();
         Assert.assertEquals(1, algorithm.calc("boo", "book"));
